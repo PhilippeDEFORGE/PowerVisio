@@ -54,30 +54,44 @@ public class PowerVisio2 extends  JFrame{
     private XYDataset createDataset() {
     XYSeriesCollection dataset = new XYSeriesCollection();
     XYSeries series1 = new XYSeries("Object 1");
-    XYSeries series2 = new XYSeries("Object 2");
-    XYSeries series3 = new XYSeries("Object 3");
  
     series1.add(1.0, 2.0);
     series1.add(2.0, 3.0);
     series1.add(3.0, 2.5);
     series1.add(3.5, 2.8);
     series1.add(4.2, 6.0);
+
+    dataset.addSeries(series1); 
  
-    series2.add(2.0, 1.0);
-    series2.add(2.5, 2.4);
-    series2.add(3.2, 1.2);
-    series2.add(3.9, 2.8);
-    series2.add(4.6, 3.0);
- 
-    series3.add(1.2, 4.0);
-    series3.add(2.5, 4.4);
-    series3.add(3.8, 4.2);
-    series3.add(4.3, 3.8);
-    series3.add(4.5, 4.0);
- 
-    dataset.addSeries(series1);
-    dataset.addSeries(series2);
-    dataset.addSeries(series3);
+    return dataset;
+}
+    
+    private XYDataset createDatasetFromTextArea() {
+    XYSeriesCollection dataset = new XYSeriesCollection();
+    XYSeries series1 = new XYSeries("Object 1");
+    int i=0;
+    int NombreLignes = 0;
+    String Record = "";
+    
+    NombreLignes = DataTextArea.getLineCount();
+    Record = DataTextArea.getText();
+    
+    System.out.println("NombresLignes : " + NombreLignes);
+    
+    /*for(i=0;i<NombreLignes;i++)
+    {
+    series1.add(i,2 );
+    }*/
+    
+    String[] textLigne = DataTextArea.getText().split("\n");
+    
+    System.out.println("TextLignes : " +textLigne.length);
+    
+    
+   /* for(i = 0; i < textLigne.length; i++){
+		System.out.println(textLigne[i]);
+			}*/
+    dataset.addSeries(series1); 
  
     return dataset;
 }
@@ -130,7 +144,7 @@ public class PowerVisio2 extends  JFrame{
         DataPano = new JPanel();
         DataTextArea = new JTextArea();
         jScrollPane1 = new JScrollPane(DataTextArea);
-        jScrollPane1.setPreferredSize(new Dimension(200,500));
+        jScrollPane1.setPreferredSize(new Dimension(200,450));
         DataPano.add(jScrollPane1);
         
         PrintStream printStream = new PrintStream(new CustomOutputStream(DataTextArea));
@@ -178,6 +192,7 @@ public class PowerVisio2 extends  JFrame{
 				System.out.println("Communication Stopped");
                             try {
                                 temp.stop();
+                                createDatasetFromTextArea();
                             } catch (IOException ex) {
                                 Logger.getLogger(PowerVisio2.class.getName()).log(Level.SEVERE, null, ex);
                             }
